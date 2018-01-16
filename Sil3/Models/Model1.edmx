@@ -1,0 +1,369 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="StokAppDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Birim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ad" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Depo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ad" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Grup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ad" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Malzeme">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Kod" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Ad" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Barkod" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="GrupId" Type="int" Nullable="false" />
+          <Property Name="BirimId" Type="int" Nullable="false" />
+          <Property Name="KdvOrani" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StokGiris">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MalzemeId" Type="int" Nullable="false" />
+          <Property Name="GrupId" Type="int" Nullable="false" />
+          <Property Name="BirimFiyat" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="BirimKatSayi" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="DolapNo" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="RafNo" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="DepoNo" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Malzeme_Birim">
+          <End Role="Birim" Type="Self.Birim" Multiplicity="1" />
+          <End Role="Malzeme" Type="Self.Malzeme" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Birim">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Malzeme">
+              <PropertyRef Name="BirimId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Malzeme_Grup">
+          <End Role="Grup" Type="Self.Grup" Multiplicity="1" />
+          <End Role="Malzeme" Type="Self.Malzeme" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Grup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Malzeme">
+              <PropertyRef Name="GrupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StokGiris_Depo">
+          <End Role="Depo" Type="Self.Depo" Multiplicity="1" />
+          <End Role="StokGiris" Type="Self.StokGiris" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Depo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StokGiris">
+              <PropertyRef Name="DepoNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StokGiris_Grup">
+          <End Role="Grup" Type="Self.Grup" Multiplicity="1" />
+          <End Role="StokGiris" Type="Self.StokGiris" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Grup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StokGiris">
+              <PropertyRef Name="GrupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StokGiris_Malzeme">
+          <End Role="Malzeme" Type="Self.Malzeme" Multiplicity="1" />
+          <End Role="StokGiris" Type="Self.StokGiris" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Malzeme">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StokGiris">
+              <PropertyRef Name="MalzemeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StokAppDbModelStoreContainer">
+          <EntitySet Name="Birim" EntityType="Self.Birim" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Depo" EntityType="Self.Depo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Grup" EntityType="Self.Grup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Malzeme" EntityType="Self.Malzeme" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StokGiris" EntityType="Self.StokGiris" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Malzeme_Birim" Association="Self.FK_Malzeme_Birim">
+            <End Role="Birim" EntitySet="Birim" />
+            <End Role="Malzeme" EntitySet="Malzeme" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Malzeme_Grup" Association="Self.FK_Malzeme_Grup">
+            <End Role="Grup" EntitySet="Grup" />
+            <End Role="Malzeme" EntitySet="Malzeme" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StokGiris_Depo" Association="Self.FK_StokGiris_Depo">
+            <End Role="Depo" EntitySet="Depo" />
+            <End Role="StokGiris" EntitySet="StokGiris" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StokGiris_Grup" Association="Self.FK_StokGiris_Grup">
+            <End Role="Grup" EntitySet="Grup" />
+            <End Role="StokGiris" EntitySet="StokGiris" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StokGiris_Malzeme" Association="Self.FK_StokGiris_Malzeme">
+            <End Role="Malzeme" EntitySet="Malzeme" />
+            <End Role="StokGiris" EntitySet="StokGiris" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="StokAppDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Birim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Malzeme" Relationship="Self.FK_Malzeme_Birim" FromRole="Birim" ToRole="Malzeme" />
+        </EntityType>
+        <EntityType Name="Depo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="StokGiris" Relationship="Self.FK_StokGiris_Depo" FromRole="Depo" ToRole="StokGiris" />
+        </EntityType>
+        <EntityType Name="Grup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ad" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Malzeme" Relationship="Self.FK_Malzeme_Grup" FromRole="Grup" ToRole="Malzeme" />
+          <NavigationProperty Name="StokGiris" Relationship="Self.FK_StokGiris_Grup" FromRole="Grup" ToRole="StokGiris" />
+        </EntityType>
+        <EntityType Name="Malzeme">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Kod" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Ad" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Barkod" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="GrupId" Type="Int32" Nullable="false" />
+          <Property Name="BirimId" Type="Int32" Nullable="false" />
+          <Property Name="KdvOrani" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <NavigationProperty Name="Birim" Relationship="Self.FK_Malzeme_Birim" FromRole="Malzeme" ToRole="Birim" />
+          <NavigationProperty Name="Grup" Relationship="Self.FK_Malzeme_Grup" FromRole="Malzeme" ToRole="Grup" />
+          <NavigationProperty Name="StokGiris" Relationship="Self.FK_StokGiris_Malzeme" FromRole="Malzeme" ToRole="StokGiris" />
+        </EntityType>
+        <EntityType Name="StokGiris">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MalzemeId" Type="Int32" Nullable="false" />
+          <Property Name="GrupId" Type="Int32" Nullable="false" />
+          <Property Name="BirimFiyat" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="BirimKatSayi" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="DolapNo" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="RafNo" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="DepoNo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Depo" Relationship="Self.FK_StokGiris_Depo" FromRole="StokGiris" ToRole="Depo" />
+          <NavigationProperty Name="Grup" Relationship="Self.FK_StokGiris_Grup" FromRole="StokGiris" ToRole="Grup" />
+          <NavigationProperty Name="Malzeme" Relationship="Self.FK_StokGiris_Malzeme" FromRole="StokGiris" ToRole="Malzeme" />
+        </EntityType>
+        <Association Name="FK_Malzeme_Birim">
+          <End Role="Birim" Type="Self.Birim" Multiplicity="1" />
+          <End Role="Malzeme" Type="Self.Malzeme" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Birim">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Malzeme">
+              <PropertyRef Name="BirimId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StokGiris_Depo">
+          <End Role="Depo" Type="Self.Depo" Multiplicity="1" />
+          <End Role="StokGiris" Type="Self.StokGiris" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Depo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StokGiris">
+              <PropertyRef Name="DepoNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Malzeme_Grup">
+          <End Role="Grup" Type="Self.Grup" Multiplicity="1" />
+          <End Role="Malzeme" Type="Self.Malzeme" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Grup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Malzeme">
+              <PropertyRef Name="GrupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StokGiris_Grup">
+          <End Role="Grup" Type="Self.Grup" Multiplicity="1" />
+          <End Role="StokGiris" Type="Self.StokGiris" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Grup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StokGiris">
+              <PropertyRef Name="GrupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StokGiris_Malzeme">
+          <End Role="Malzeme" Type="Self.Malzeme" Multiplicity="1" />
+          <End Role="StokGiris" Type="Self.StokGiris" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Malzeme">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StokGiris">
+              <PropertyRef Name="MalzemeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StokAppDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Birim" EntityType="Self.Birim" />
+          <EntitySet Name="Depo" EntityType="Self.Depo" />
+          <EntitySet Name="Grup" EntityType="Self.Grup" />
+          <EntitySet Name="Malzeme" EntityType="Self.Malzeme" />
+          <EntitySet Name="StokGiris" EntityType="Self.StokGiris" />
+          <AssociationSet Name="FK_Malzeme_Birim" Association="Self.FK_Malzeme_Birim">
+            <End Role="Birim" EntitySet="Birim" />
+            <End Role="Malzeme" EntitySet="Malzeme" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StokGiris_Depo" Association="Self.FK_StokGiris_Depo">
+            <End Role="Depo" EntitySet="Depo" />
+            <End Role="StokGiris" EntitySet="StokGiris" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Malzeme_Grup" Association="Self.FK_Malzeme_Grup">
+            <End Role="Grup" EntitySet="Grup" />
+            <End Role="Malzeme" EntitySet="Malzeme" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StokGiris_Grup" Association="Self.FK_StokGiris_Grup">
+            <End Role="Grup" EntitySet="Grup" />
+            <End Role="StokGiris" EntitySet="StokGiris" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StokGiris_Malzeme" Association="Self.FK_StokGiris_Malzeme">
+            <End Role="Malzeme" EntitySet="Malzeme" />
+            <End Role="StokGiris" EntitySet="StokGiris" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="StokAppDbModelStoreContainer" CdmEntityContainer="StokAppDbEntities">
+          <EntitySetMapping Name="Birim">
+            <EntityTypeMapping TypeName="StokAppDbModel.Birim">
+              <MappingFragment StoreEntitySet="Birim">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Depo">
+            <EntityTypeMapping TypeName="StokAppDbModel.Depo">
+              <MappingFragment StoreEntitySet="Depo">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Grup">
+            <EntityTypeMapping TypeName="StokAppDbModel.Grup">
+              <MappingFragment StoreEntitySet="Grup">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Malzeme">
+            <EntityTypeMapping TypeName="StokAppDbModel.Malzeme">
+              <MappingFragment StoreEntitySet="Malzeme">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Kod" ColumnName="Kod" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="Barkod" ColumnName="Barkod" />
+                <ScalarProperty Name="GrupId" ColumnName="GrupId" />
+                <ScalarProperty Name="BirimId" ColumnName="BirimId" />
+                <ScalarProperty Name="KdvOrani" ColumnName="KdvOrani" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StokGiris">
+            <EntityTypeMapping TypeName="StokAppDbModel.StokGiris">
+              <MappingFragment StoreEntitySet="StokGiris">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="MalzemeId" ColumnName="MalzemeId" />
+                <ScalarProperty Name="GrupId" ColumnName="GrupId" />
+                <ScalarProperty Name="BirimFiyat" ColumnName="BirimFiyat" />
+                <ScalarProperty Name="BirimKatSayi" ColumnName="BirimKatSayi" />
+                <ScalarProperty Name="DolapNo" ColumnName="DolapNo" />
+                <ScalarProperty Name="RafNo" ColumnName="RafNo" />
+                <ScalarProperty Name="DepoNo" ColumnName="DepoNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

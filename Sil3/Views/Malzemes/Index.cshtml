@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Sil3.Models.Malzeme>
+@using GridMvc.Html
+@{
+    ViewBag.Title = "Index2";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Grid(Model).Columns(columns =>
+           {
+               columns.Add(foo => foo.Kod).Titled("Malzeme Kodu").Filterable(true).SetWidth(110);
+               columns.Add(foo => foo.Ad).Titled("Malzeme Adı").Sortable(true).Filterable(true);
+               columns.Add(foo => foo.Barkod).Titled("Barkod No").Sortable(true).Filterable(true);
+               columns.Add(foo => foo.Grup.Ad).Titled("Grup Adı").Sortable(true).Filterable(true);
+               columns.Add(foo => foo.Birim.Ad).Titled("Birim Adı").Sortable(true).Filterable(true);
+               columns.Add(foo => foo.KdvOrani).Titled("Kdv Oranı").Sortable(true).Filterable(true);
+             
+               
+
+           }).WithPaging(1)
